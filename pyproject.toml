@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "grpc-test"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+grpcio = {version = "^1.57.0", platform = "linux"}
+grpcio-tools = {version = "^1.57.0", platform = "linux"}
+grpcio-reflection = {version = "^1.57.0", platform = "linux"}
+
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.22.1"
+black = "^23.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks.generate]
+cmd = "python -m grpc_tools.protoc -I./ --python_out . --pyi_out . --grpc_python_out . ./grpc_test/${module}/protos/${file}"
+args = [
+  { name = "module", options = ["-m", "--module"] },
+  { name = "file", positional = true }
+]
